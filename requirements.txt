@@ -1,0 +1,12 @@
+openai
+ell-ai
+python-fasthtml
+python-dotenv
+pymongo
+pyzoom
+boto3
+pydantic
+slack_sdk
+arrow
+unidecode
+requests
