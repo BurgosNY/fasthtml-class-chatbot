@@ -120,8 +120,7 @@ def get_meeting_info(client, meeting_id, token):
 
 
 def msg_nova_gravacao(json, slack_client, url_presenca, channel="general"):
-    t = f":red_circle: A gravação da última aula da disciplina *{
-        json['disciplina']}* já está disponível!\n"
+    t = f":red_circle: A gravação da última aula da disciplina *{json['disciplina']}* já está disponível!\n"
     t += f"Clique <{json['video_url']}|aqui> para acessar o vídeo.\n"
     t += f"Para baixar o arquivo .mp4 clique <{json['download_url']}|aqui>.\n"
     block = [{"type": "section", "text": {"type": "mrkdwn", "text": t}}]
