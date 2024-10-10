@@ -320,8 +320,7 @@ if __name__ == '__main__':
                     token=os.environ.get("SLACK_BOT_TOKEN22"))
                 lp = lista_presenca(zoom_client[0], last['meeting_id'])
                 file_url = last['download_url']
-                filename = f'{x["channel"]}_{
-                    last["data_str"].replace("/", "-")}.mp4'
+                filename = f'{x["channel"]}_{last["data_str"].replace("/", "-")}.mp4'
                 aws_url = send_large_file_to_s3(file_url, filename)
                 last['download_url'] = aws_url
                 url_presenca = cria_lista_presenca(
@@ -336,8 +335,7 @@ if __name__ == '__main__':
                     token=os.environ.get("SLACK_BOT_TOKEN23"))
                 lp = lista_presenca(zoom_client[0], last['meeting_id'])
                 file_url = last['download_url']
-                filename = f'{x["channel"]}_{
-                    last["data_str"].replace("/", "-")}.mp4'
+                filename = f'{x["channel"]}_{last["data_str"].replace("/", "-")}.mp4'
                 aws_url = send_large_file_to_s3(file_url, filename)
                 last['download_url'] = aws_url
                 url_presenca = cria_lista_presenca(
