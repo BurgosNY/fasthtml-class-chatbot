@@ -156,8 +156,7 @@ def get_meeting_info(client, meeting_id, token):
     if len(transcricao_list) == 0:
         obj['transcription'] = None
     else:
-        obj['transcription'] = f"{transcricao_list[0]
-                                  ['download_url']}?access_token={token}"
+        obj['transcription'] = f"{transcricao_list[0]['download_url']}?access_token={token}"
     obj['psw'] = dados['password']
     obj['meeting_id'] = meeting_id
     obj['recording_id'] = files[0]['id']
