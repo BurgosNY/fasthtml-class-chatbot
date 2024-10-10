@@ -1,7 +1,7 @@
 import re
 import time
 from operator import itemgetter
-import unidecode
+from unidecode import unidecode
 from slack_sdk import WebClient
 import requests
 from pymongo import MongoClient
@@ -363,4 +363,5 @@ if __name__ == '__main__':
                             time.sleep(2)
                     else:
                         msg_nova_transcricao(parsed['summary'], slack_client, channel=x['channel'])
+    print("Done")
             
