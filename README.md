@@ -9,4 +9,5 @@ Tecnologias utilizadas:
 * [PicoCSS](https://picocss.com/) para estilizar o site
 * [MongoDB](https://www.mongodb.com/) para armazenar os dados
 * [GPT-4o-mini](https://platform.openai.com/docs/models) como modelo de linguagem
+* [Ell](https://docs.ell.so/) para interação com LLM
 * [Pinecone](https://www.pinecone.io/) para armazenar os embeddings do modelo de linguagem

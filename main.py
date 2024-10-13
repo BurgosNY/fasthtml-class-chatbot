@@ -27,7 +27,7 @@ def home():
         courses_by_tri[tri].append(course)
     print(courses_by_tri)
     return Titled("Master em Jornalismo de Dados, Automação e Data Storytelling",
-                  P("Clique no nome da disciplina para acessar as gravações das aulas"),
+                  P("Clique no nome da disciplina para acessar as gravações das aulas ou use o chat ao lado para fazer perguntas sobre quando e como quais assuntos foram abordados nas aulas."),
                   Div(
                       Div(
                           *[Card(
@@ -40,7 +40,7 @@ def home():
                           H3("Fale com o Bot do MJD"),
                           Div(id="chat-messages"),
                           Form(
-                              Input(type="text", name="message", placeholder="Escreve a pergunta e aperte Enter...", cls="input-message"),
+                              Input(type="text", name="message", placeholder="Faça sua pergunta e aperte Enter...", cls="input-message"),
                               Button(
                                   "Processando...", type="submit", cls="button-send secondary htmx-indicator", aria_busy="true", aria_label="Please wait…", id='loading'),
                               hx_post="/send-message",
@@ -52,7 +52,9 @@ def home():
                           cls="chatbot-window"
                       ),
                       cls="grid"
-                  ))
+                  ),
+                  Footer("Desenvolvido por Pedro Burgos, 2024")
+                  )
 
 
 @rt("/courses/{course_id}")
