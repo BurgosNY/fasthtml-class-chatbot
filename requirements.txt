@@ -11,3 +11,4 @@ arrow
 unidecode
 requests
 google-generativeai
+pinecone
