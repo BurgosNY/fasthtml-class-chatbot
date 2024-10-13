@@ -1,4 +1,5 @@
 from fasthtml.common import *
+from ai_helpers import process_message
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from bson.objectid import ObjectId
@@ -11,7 +12,8 @@ psw = os.environ.get('MONGODB_PSW')
 mongo_uri = os.environ.get('MONGODB_URI')
 db = MongoClient(f'mongodb://{user}:{psw}@{mongo_uri}/mjd?ssl=true', ssl=True, tlsAllowInvalidCertificates=True).mjd
 
-app, rt = fast_app()
+chatbot_css = Link(rel='stylesheet', href='/static/css/custom.css', type='text/css')
+app, rt = fast_app(hdrs=[chatbot_css])
 
 # Home Page
 @rt("/")
@@ -26,11 +28,31 @@ def home():
     print(courses_by_tri)
     return Titled("Master em Jornalismo de Dados, Automação e Data Storytelling",
                   P("Clique no nome da disciplina para acessar as gravações das aulas"),
-                  *[Card(
-                      H3(f"{tri}º trimestre"),
-                      Ul(*[Li(A(course["nome"], href=f"/courses/{course['zoom_id']}")) for course in courses_by_tri[tri]])
-                  ) for tri in sorted(set(courses_by_tri.keys()), reverse=True)])
-
+                  Div(
+                      Div(
+                          *[Card(
+                              H3(f"{tri}º trimestre"),
+                              Ul(*[Li(A(course["nome"], href=f"/courses/{course['zoom_id']}")) for course in courses_by_tri[tri]])
+                          ) for tri in sorted(set(courses_by_tri.keys()), reverse=True)],
+                          cls="course-list"
+                      ),
+                      Div(
+                          H3("Fale com o Bot do MJD"),
+                          Div(id="chat-messages"),
+                          Form(
+                              Input(type="text", name="message", placeholder="Escreve a pergunta e aperte Enter...", cls="input-message"),
+                              Button(
+                                  "Processando...", type="submit", cls="button-send secondary htmx-indicator", aria_busy="true", aria_label="Please wait…", id='loading'),
+                              hx_post="/send-message",
+                              hx_target="#chat-messages",
+                              hx_swap="beforeend",
+                              hx_indicator="#loading",
+                              cls="chat-form"
+                        ),
+                          cls="chatbot-window"
+                      ),
+                      cls="grid"
+                  ))
 
 
 @rt("/courses/{course_id}")
@@ -38,8 +60,13 @@ def course_page(course_id: int):
     course = db.disciplinas.find_one({"zoom_id": course_id})
     classes = db.gravacoes.find({"meeting_id": course["zoom_id"]})
     return Titled(f"{course['nome']}", 
-                  *[class_card(recording, i) for i, recording in enumerate(classes, 1)],
-                  A(href="/logout")("Logout"))
+                  *[class_card(recording, i) for i, recording in enumerate(classes, 1)])
+
+
+@rt("/send-message")
+def post(message: str):
+    answer = process_message(message)
+    return P(answer.parsed.answer)
 
 
 @rt("/expand/{recording_id}")
@@ -59,7 +86,6 @@ def class_card(recording: dict, i: int):
         ),
         Div(id=f"summary-{recording['_id']}")
     )
-
 
 
 # Serve the app

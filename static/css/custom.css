@@ -1,0 +1,79 @@
+.grid {
+    --grid-spacing-horizontal: var(--spacing);
+    --grid-spacing-vertical: var(--spacing);
+}
+
+.course-list {
+    grid-column: span 6 / span 6;
+}
+
+.chatbot-window {
+    grid-column: span 6 / span 6;
+    height: 80vh;
+    background-color: var(--card-background-color);
+    border: var(--card-border-width) solid var(--card-border-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-box-shadow);
+    display: flex;
+    flex-direction: column;
+}
+
+.chatbot-window form {
+    display: flex;
+    padding: var(--spacing);
+    border-top: var(--card-border-width) solid var(--card-border-color);
+    gap: var(--spacing);
+}
+
+#chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: var(--spacing);
+}
+
+.chatbot-window form {
+    display: flex;
+    padding: var(--spacing);
+    border-top: var(--card-border-width) solid var(--card-border-color);
+}
+
+.chatbot-window form input {
+    flex-grow: 1;
+    margin-right: var(--spacing);
+    height: 3rem;
+}
+
+.chatbot-window form button {
+    width: auto;  /* Allow button to shrink */
+    padding: 0 1rem;  /* Reduce horizontal padding */
+    white-space: nowrap;  /* Prevent text wrapping */
+}
+
+@media (min-width: 992px) {
+    .course-list {
+        grid-column: span 8 / span 8;
+    }
+
+    .chatbot-window {
+        grid-column: span 4 / span 4;
+    }
+}
+
+.htmx-indicator{
+    display:none;
+}
+.htmx-request .htmx-indicator{
+    display:inline;
+}
+.htmx-request.htmx-indicator{
+    display:inline;
+}
+
+@keyframes pico-loading {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
