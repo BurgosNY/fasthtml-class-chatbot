@@ -109,7 +109,7 @@ Forneça a resposta em formato de parágrafo estruturado:
   - Sim, a disciplina de Ética em Jornalismo de Dados teve uma entrevista com a jornalista da Folha de S. Paulo na Lição 5. Durante essa sessão, o jornalista discutiu o impacto das tecnologias digitais no jornalismo moderno, incluindo a transição do impresso para o digital e os desafios contemporâneos enfrentados pelas redações, como a disseminação de fake news e a importância da verificação de fatos.
   - A entrevista também abordou a evolução das técnicas de reportagem diante das mudanças tecnológicas e a adaptação dos jornalistas ao uso de ferramentas de análise de dados para investigações mais aprofundadas. Os alunos tiveram a oportunidade de aprender sobre a ética no jornalismo digital e como as publicações tradicionais estão se reinventando para permanecerem relevantes na era digital.
     """
-    return f"Responda a pergunta {question}, usando os documentos relevantes como base:{relevant_docs}"
+    return f"Responda a pergunta {question}, usando os documentos relevantes como base:{relevant_docs}. Utilize markdown para formatar a resposta."
 
 
 def process_message(message):

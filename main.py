@@ -13,7 +13,7 @@ mongo_uri = os.environ.get('MONGODB_URI')
 db = MongoClient(f'mongodb://{user}:{psw}@{mongo_uri}/mjd?ssl=true', ssl=True, tlsAllowInvalidCertificates=True).mjd
 
 chatbot_css = Link(rel='stylesheet', href='/static/css/custom.css', type='text/css')
-app, rt = fast_app(hdrs=[chatbot_css])
+app, rt = fast_app(hdrs=[chatbot_css, KatexMarkdownJS()])
 
 # Home Page
 @rt("/")
@@ -68,7 +68,7 @@ def course_page(course_id: int):
 @rt("/send-message")
 def post(message: str):
     answer = process_message(message)
-    return P(answer.parsed.answer)
+    return P(answer.parsed.answer, cls="marked")
 
 
 @rt("/expand/{recording_id}")
