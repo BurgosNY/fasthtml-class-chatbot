@@ -27,6 +27,18 @@ class Block(BaseModel):
 class Summary(BaseModel):
     summary: str = Field(description="Um resumo em um parágrafo sobre o que foi abordado na aula")
     blocks: List[Block] = Field(description="Uma lista de trechos da aula, cada um com os assuntos abordados, e o tempo correspondente no vídeo. O foco deve ser exclusivamente o conteúdo da aula, e não na descrição do que aconteceu.")
+    
+    
+class FinalSummary(BaseModel):
+    summary: str = Field(description="Um resumo em um parágrafo sobre o que foi abordado na aula")
+    title: str = Field(description="Um título para a aula, com breve lista de conceitos mais importantesentre parênteses")
+
+    
+
+@ell.complex(model="gpt-4o", response_format=FinalSummary)
+def fix_class_summary(blocks: List[Block], disciplina: str) -> FinalSummary:
+    """Você é um professor assistente que recebe um resumo estruturado de uma aula e corrige possíveis erros de formatação, sem alterar o conteúdo."""
+    return f"Leia a seguinte lista de trechos de uma aula da disciplina {disciplina}. Crie um título para a aula, dentro do contexto da disciplina, e um resumo em um parágrafo sobre o que foi abordado: {blocks}"
 
 
 @ell.complex(model="gpt-4o-mini", response_format=Summary)
@@ -353,8 +365,14 @@ if __name__ == '__main__':
                     text = transcript.text
                     ai_summary = generate_class_summary(text)
                     parsed = parse_summary(ai_summary)
+                    final_summary = fix_class_summary(parsed['blocks'], x['nome'])
+                    summary_dict = {
+                        "title": final_summary.parsed.title,
+                        "summary": final_summary.parsed.summary,
+                        "blocks": parsed['blocks']
+                    }
                     print("AI summary generated")
-                    db.gravacoes.update_one({"recording_id": last["recording_id"]}, {"$set": parsed})
+                    db.gravacoes.update_one({"recording_id": last["recording_id"]}, {"$set": {"ai_summary": summary_dict}})
                     print("Sending summary to slack")
                     if len(parsed['summary']) >= 2500:
                         chunks = split_markdown(parsed['summary'], chunk_size=2000)
